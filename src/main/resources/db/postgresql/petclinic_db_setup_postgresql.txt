@@ -1,0 +1,15 @@
+1) Download and install the PostgreSQL database,
+   which can be found here: https://www.postgresql.org/download/
+
+
+2) Open psql and create the PetClinic database:
+ 
+	create database petclinic;
+  	create user petclinic_user with encrypted password 'your_password';
+  	grant all privileges on database petclinic to petclinic_user;
+
+3) Create the PetClinic tables by executing the "db/postgresql/schema.sql".
+Then execute "db/postgresql/data.sql" script.
+Or uncomment the following line
+# spring.datasource.initialization-mode=always
+ in application-postgresql.properties file when you run the app for the first time.

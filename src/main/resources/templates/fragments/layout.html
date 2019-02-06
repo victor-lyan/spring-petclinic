@@ -1,5 +1,5 @@
 <!doctype html>
-<html th:fragment="layout (template, menu)">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout (template, menu)">
 
   <head>
 
@@ -39,14 +39,9 @@
   
                   <li th:fragment="menuItem (path,active,title,glyph,text)" class="active" th:class="${active==menu ? 'active' : ''}">
                       <a th:href="@{__${path}__}" th:title="${title}">
-                        <span th:class="'glyphicon  glyphicon-'+${glyph}" class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                        <span th:class="'glyphicon glyphicon-'+${glyph}" class="glyphicon glyphicon-home" aria-hidden="true"></span>
                         <span th:text="${text}">Template</span>
                       </a>
-                  </li>
-  
-                  <li th:replace="::menuItem ('/','home','home page','home','Home')">
-                      <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-                      <span>Home</span>
                   </li>
   
                   <li th:replace="::menuItem ('/owners/find','owners','find owners','search','Find owners')">
@@ -58,10 +53,20 @@
                       <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                       <span>Veterinarians</span>
                   </li>
+
+                  <li th:replace="::menuItem ('/profile','profile','my profile','user','My Profile')">
+                      <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                      <span>My Profile</span>
+                  </li>
   
-                  <li th:replace="::menuItem ('/oups','error','trigger a RuntimeException to see how it is handled','warning-sign','Error')">
-                      <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-                      <span>Error</span>
+                  <li th:replace="::menuItem ('/logout','logout','Sign out','log-out','Sign out')">
+                      <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                      <span>Sign out</span>
+                  </li>
+
+                  <li th:replace="::menuItem ('/login','login','Sign in/Sign up','log-in','Sign in')">
+                      <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+                      <span>Sign in</span>
                   </li>
   
               </ul>
