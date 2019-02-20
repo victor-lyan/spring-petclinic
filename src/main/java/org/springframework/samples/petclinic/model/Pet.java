@@ -15,6 +15,10 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PropertyComparator;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,14 +31,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
-import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Simple business object representing a pet.
@@ -46,6 +49,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "pets")
 public class Pet extends NamedEntity {
+
+    @Id
+    @GeneratedValue(generator = "pet_generator")
+    @SequenceGenerator(
+        name = "pet_generator",
+        sequenceName = "pet_id_seq",
+        initialValue = 100
+    )
+    private Integer id;
 
     @Column(name = "birth_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -86,7 +98,7 @@ public class Pet extends NamedEntity {
         this.owner = owner;
     }
 
-    public Set<Visit> getVisitsInternal() {
+    private Set<Visit> getVisitsInternal() {
         if (this.visits == null) {
             this.visits = new HashSet<>();
         }
@@ -109,4 +121,11 @@ public class Pet extends NamedEntity {
         visit.setPetId(this.getId());
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

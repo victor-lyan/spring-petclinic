@@ -15,9 +15,12 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -27,6 +30,42 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "specialties")
-public class Specialty extends NamedEntity implements Serializable {
+public class Specialty extends NamedEntity {
 
+    @Id
+    @GeneratedValue(generator = "specialty_generator")
+    @SequenceGenerator(
+        name = "specialty_generator",
+        sequenceName = "specialties_id_seq",
+        initialValue = 100
+    )
+    private Integer id;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(getId());
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Specialty other = (Specialty) obj;
+
+        return Objects.equals(getId(), other.getId());
+    }
 }

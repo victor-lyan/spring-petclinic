@@ -1,5 +1,6 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout (template, menu)">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:fragment="layout (template, menu)">
 
 <head>
 
@@ -50,36 +51,41 @@
                     <span>Home</span>
                 </li>
 
-                <li th:replace="::menuItem ('/owners/find','owners','find owners','search','Find owners')">
+                <li sec:authorize-url="/owners" th:replace="::menuItem ('/owners','owners','find owners','users','Owners')">
                     <span class="fas fa-search" aria-hidden="true"></span>
                     <span>Find owners</span>
                 </li>
 
-                <li th:replace="::menuItem ('/vets.html','vets','veterinarians','th-list','Veterinarians')">
+                <li th:replace="::menuItem ('/vets','vets','veterinarians','th-list','Veterinarians')">
                     <span class="fas fa-list" aria-hidden="true"></span>
                     <span>Veterinarians</span>
                 </li>
 
-                <li th:replace="::menuItem ('/profile','profile','my profile','user','My Profile')">
+                <li sec:authorize="isAuthenticated()" th:replace="::menuItem ('/profile','profile','my profile','user','My Profile')">
                     <span class="fas fa-user"></span>
                     <span>My Profile</span>
                 </li>
 
-                <li th:replace="::menuItem ('/logout','logout','Sign out','sign-out-alt','Sign out')">
-                    <span class="fas fa-sign-out-alt"></span>
-                    <span>Sign out</span>
-                </li>
-
-                <li th:replace="::menuItem ('/login','login','Sign in/Sign up','sign-in-alt','Sign in')">
+                <li sec:authorize="isAnonymous()" th:replace="::menuItem ('/login','login','Sign in','sign-in-alt','Sign In')">
                     <span class="fas fa-sign-in-alt"></span>
                     <span>Sign in</span>
+                </li>
+
+                <li sec:authorize="isAnonymous()" th:replace="::menuItem ('/registration','registration','Sign up','user-plus','Sign Up')">
+                    <span class="fas fa-user-plus"></span>
+                    <span>Sign Up</span>
+                </li>
+                
+                <li sec:authorize="isAuthenticated()" th:replace="::menuItem ('/logout','logout','Sign out','sign-out-alt','Sign Out')">
+                    <span class="fas fa-sign-out-alt"></span>
+                    <span>Sign out</span>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 <div class="container-fluid">
-    <div class="container xd-container">
+    <div class="container py-4 px-2">
 
         <th:block th:include="${template}"/>
 

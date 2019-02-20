@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org"
-  th:replace="~{fragments/layout :: layout (~{::body},'vets')}">
+      th:replace="~{fragments/layout :: layout (~{::body},'vets')}">
 
 <body>
 
-  <h2>Veterinarians</h2>
+<h2>Veterinarians</h2>
 
-  <table id="vets" class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Specialties</th>
-      </tr>
+<table id="vets" class="table table-striped">
+    <thead class="thead-light">
+        <tr>
+            <th>Name</th>
+            <th>Working Days</th>
+            <th>Working Hours</th>
+            <th>Specialties</th>
+        </tr>
     </thead>
     <tbody>
-      <tr th:each="vet : ${vets.vetList}">
-        <td th:text="${vet.firstName + ' ' + vet.lastName}"></td>
-        <td><span th:each="specialty : ${vet.specialties}"
-          th:text="${specialty.name + ' '}" /> <span
-          th:if="${vet.nrOfSpecialties == 0}">none</span></td>
-      </tr>
+        <tr th:each="vet : ${vetPage.content}">
+            <td>
+                <a th:href="@{/vets/__${vet.id}__}"
+                   th:text="${vet.firstName + ' ' + vet.lastName}"/></a>
+            </td>
+            <td th:text="${vet.workingDays}"/>
+            <td th:text="${vet.workingHours}"/>
+            <td>
+                <span th:each="specialty : ${vet.specialties}"
+                      th:text="${specialty.name + ' '}"/> <span
+                    th:if="${vet.nrOfSpecialties == 0}">none</span>
+            </td>
+        </tr>
     </tbody>
-  </table>
+</table>
+<div th:replace="~{fragments/pagination :: pagination (${vetPage}, ${pageNumbers}, 'vets')}"></div>
+
 </body>
 </html>

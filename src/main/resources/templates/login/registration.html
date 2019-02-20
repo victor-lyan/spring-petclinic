@@ -1,0 +1,132 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login Page</title>
+    <link rel="stylesheet" th:href="@{/resources/css/petclinic.css}"/>
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-8">
+            <div class="card">
+                <header class="card-header">
+                    <h4 class="card-title mt-2">Sign up</h4>
+                </header>
+                <article class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>Your Role</label>
+                            <select id="roleSelect" class="form-control">
+                                <option>Choose your role</option>
+                                <option th:each="role : ${roles}" th:value="${role.id}" 
+                                        th:text="${role.name}" 
+                                        th:selected="${(role.name == 'OWNER' && (ownerErrors != null && ownerErrors)) 
+                                        || (role.name == 'VET' && (vetErrors != null && vetErrors))}">
+                                    Role
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <form method="post" th:action="@{/owner-registration}" id="ownerForm" th:object="${owner}" 
+                          th:style="${ownerErrors}? 'display: block;' : 'display: none;'">
+                        <div class="form-group">
+                            <input th:replace="~{fragments/labelAndInput :: input 
+                            ('Email address', 'email', 'email', true)}">
+                        </div>
+                        <div class="form-group">
+                            <input th:replace="~{fragments/labelAndInput :: input 
+                            ('Password', 'password', 'password', true)}">
+                        </div>
+                        <div class="form-row">
+                            <div class="col form-group">
+                                <input th:replace="~{fragments/labelAndInput :: input 
+                                ('First name', 'firstName', 'text', true)}">
+                            </div>
+                            <div class="col form-group">
+                                <input th:replace="~{fragments/labelAndInput :: input 
+                                ('Last name', 'lastName', 'text', true)}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input th:replace="~{fragments/labelAndInput :: input 
+                            ('Address', 'address', 'text', false)}">
+                        </div>
+                        <div class="form-row">
+                            <div class="col form-group">
+                                <input th:replace="~{fragments/labelAndInput :: input 
+                                ('City', 'city', 'text', false)}">
+                            </div>
+                            <div class="col form-group">
+                                <input th:replace="~{fragments/labelAndInput :: input 
+                                ('Phone number', 'phone', 'text', false)}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </div>
+                    </form>
+                    
+                    <form method="post" th:action="@{/vet-registration}" id="vetForm" th:object="${vet}" 
+                          th:style="${vetErrors} ? 'display: block;' : 'display: none;'">
+                        <div class="form-group">
+                            <input th:replace="~{fragments/labelAndInput :: input 
+                            ('Email address', 'email', 'email', true)}">
+                        </div>
+                        <div class="form-group">
+                            <input th:replace="~{fragments/labelAndInput :: input 
+                            ('Password', 'password', 'password', true)}">
+                        </div>
+                        <div class="form-row">
+                            <div class="col form-group">
+                                <input th:replace="~{fragments/labelAndInput :: input 
+                                ('First name', 'firstName', 'text', true)}">
+                            </div>
+                            <div class="col form-group">
+                                <input th:replace="~{fragments/labelAndInput :: input 
+                                ('Last name', 'lastName', 'text', true)}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Specialties</label>
+                            <select th:field="*{specialties}" class="form-control" multiple="multiple">
+                                <option th:each="spec : ${specialtiesList}" th:value="${{spec}}"
+                                        th:text="${spec.name}">aaa</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="col form-group">
+                                <input th:replace="~{fragments/labelAndInput :: input 
+                                ('Working Days', 'workingDays', 'text', true)}">
+                            </div>
+                            <div class="col form-group">
+                                <input th:replace="~{fragments/labelAndInput :: input 
+                                ('Working Hours', 'workingHours', 'text', true)}">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Register</button>
+                        </div>
+                    </form>
+                </article>
+                <div class="border-top card-body text-center">
+                    Have an account? <a href="@{/login}">Sign In</a>
+                </div>
+            </div>      
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/jquery-ui/jquery-ui.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/resources/js/registration.js}"></script>
+
+</body>
+</html>

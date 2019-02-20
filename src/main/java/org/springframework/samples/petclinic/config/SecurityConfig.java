@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -12,6 +13,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import javax.sql.DataSource;
 
 @Configuration
+@EnableWebSecurity(debug = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${spring.queries.users-query}")
@@ -43,16 +45,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers("/", "/login", "/registration").permitAll()
-            .antMatchers("/owners/**").hasAuthority("OWNER").anyRequest()
-            .authenticated().and().csrf().disable().formLogin()
+            .antMatchers(
+                "/",
+                "/login",
+                "/registration",
+                "/owner-registration",
+                "/vet-registration",
+                "/vets/**",
+                "/registration-success",
+                "/activate-account/*"
+            )
+            .permitAll()
+            .antMatchers("/owners/**").hasAnyAuthority("OWNER", "VET").anyRequest()
+            .authenticated()
+            .and()
+            .csrf().disable()
+            .formLogin()
             .loginPage("/login")
             .defaultSuccessUrl("/")
             .usernameParameter("email")
             .passwordParameter("password")
-            .and().logout()
+            .and()
+            .logout()
             .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .and().exceptionHandling().accessDeniedPage("/access-denied");
+            .logoutSuccessUrl("/")
+            .and()
+            .exceptionHandling().accessDeniedPage("/access-denied");
 
     }
 

@@ -15,13 +15,17 @@
  */
 package org.springframework.samples.petclinic.controller;
 
-import org.springframework.samples.petclinic.repo.VetRepository;
-import org.springframework.samples.petclinic.model.Vets;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.samples.petclinic.model.Vet;
+import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author Juergen Hoeller
@@ -30,31 +34,40 @@ import java.util.Map;
  * @author Arjen Poutsma
  */
 @Controller
-class VetController {
+@RequestMapping("/vets")
+class VetController extends PersonController {
 
-    private final VetRepository vets;
+    private VetService vetService;
 
-    public VetController(VetRepository clinicService) {
-        this.vets = clinicService;
+    public VetController(VetService vetService) {
+        this.vetService = vetService;
     }
 
-    @GetMapping("/vets.html")
-    public String showVetList(Map<String, Object> model) {
-        // Here we are returning an object of type 'Vets' rather than a collection of Vet
-        // objects so it is simpler for Object-Xml mapping
-        Vets vets = new Vets();
-        vets.getVetList().addAll(this.vets.findAll());
-        model.put("vets", vets);
+    @GetMapping
+    public String showVetList(
+        Model model,
+        @RequestParam Optional<Integer> page,
+        @RequestParam Optional<Integer> size
+    ) {
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+
+        Page<Vet> vetPage = vetService.findAll(PageRequest.of(currentPage - 1, pageSize));
+        model.addAttribute("vetPage", vetPage);
+
+        //for pagination buttons
+        int totalPages = vetPage.getTotalPages();
+        setPageNumbers(totalPages, model);
         return "vets/vetList";
     }
 
-    @GetMapping({ "/vets" })
+    /*@GetMapping({ "/vets" })
     public @ResponseBody Vets showResourcesVetList() {
         // Here we are returning an object of type 'Vets' rather than a collection of Vet
         // objects so it is simpler for JSon/Object mapping
         Vets vets = new Vets();
         vets.getVetList().addAll(this.vets.findAll());
         return vets;
-    }
+    }*/
 
 }

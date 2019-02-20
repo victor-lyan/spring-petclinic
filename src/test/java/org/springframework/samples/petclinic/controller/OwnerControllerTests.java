@@ -48,7 +48,7 @@ public class OwnerControllerTests {
         george.setLastName("Franklin");
         george.setAddress("110 W. Liberty St.");
         george.setCity("Madison");
-        george.setTelephone("6085551023");
+        george.setPhone("6085551023");
         given(this.owners.findById(TEST_OWNER_ID)).willReturn(george);
     }
 

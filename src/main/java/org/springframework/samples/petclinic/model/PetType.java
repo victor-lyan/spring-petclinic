@@ -16,6 +16,9 @@
 package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.springframework.samples.petclinic.model.NamedEntity;
@@ -25,7 +28,23 @@ import org.springframework.samples.petclinic.model.NamedEntity;
  *         Can be Cat, Dog, Hamster...
  */
 @Entity
-@Table(name = "types")
+@Table(name = "pet_types")
 public class PetType extends NamedEntity {
 
+    @Id
+    @GeneratedValue(generator = "pet_type_generator")
+    @SequenceGenerator(
+        name = "pet_type_generator",
+        sequenceName = "pet_types_id_seq",
+        initialValue = 100
+    )
+    private Integer id;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

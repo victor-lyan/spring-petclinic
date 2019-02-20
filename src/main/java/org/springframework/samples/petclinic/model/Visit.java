@@ -15,28 +15,38 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.samples.petclinic.model.BaseEntity;
+import lombok.Data;
 
-/**
- * Simple JavaBean domain object representing a visit.
- *
- * @author Ken Krebs
- * @author Dave Syer
- */
 @Entity
+@Data
 @Table(name = "visits")
-public class Visit extends BaseEntity {
+public class Visit {
+
+    @Id
+    @GeneratedValue(generator = "visit_generator")
+    @SequenceGenerator(
+        name = "visit_generator",
+        sequenceName = "visits_id_seq",
+        initialValue = 100
+    )
+    private Integer id;
 
     @Column(name = "visit_date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDate date;
 
     @NotEmpty
@@ -46,35 +56,14 @@ public class Visit extends BaseEntity {
     @Column(name = "pet_id")
     private Integer petId;
 
+    @ManyToOne
+    @JoinColumn(name = "vet_id")
+    private Vet vet;
+
     /**
      * Creates a new instance of Visit for the current date
      */
     public Visit() {
         this.date = LocalDate.now();
     }
-
-    public LocalDate getDate() {
-        return this.date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getPetId() {
-        return this.petId;
-    }
-
-    public void setPetId(Integer petId) {
-        this.petId = petId;
-    }
-
 }
