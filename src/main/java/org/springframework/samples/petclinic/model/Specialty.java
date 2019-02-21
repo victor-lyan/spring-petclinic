@@ -37,7 +37,8 @@ public class Specialty extends NamedEntity {
     @SequenceGenerator(
         name = "specialty_generator",
         sequenceName = "specialties_id_seq",
-        initialValue = 100
+        initialValue = 100,
+        allocationSize = 1
     )
     private Integer id;
 

@@ -19,7 +19,8 @@ public class Role {
     @SequenceGenerator(
         name = "role_generator",
         sequenceName = "roles_id_seq",
-        initialValue = 100
+        initialValue = 100,
+        allocationSize = 1
     )
     private Integer id;
 

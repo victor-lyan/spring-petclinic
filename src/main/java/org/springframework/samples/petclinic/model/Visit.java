@@ -41,7 +41,8 @@ public class Visit {
     @SequenceGenerator(
         name = "visit_generator",
         sequenceName = "visits_id_seq",
-        initialValue = 100
+        initialValue = 100,
+        allocationSize = 1
     )
     private Integer id;
 

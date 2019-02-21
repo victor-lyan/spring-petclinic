@@ -36,7 +36,8 @@ public class PetType extends NamedEntity {
     @SequenceGenerator(
         name = "pet_type_generator",
         sequenceName = "pet_types_id_seq",
-        initialValue = 100
+        initialValue = 100,
+        allocationSize = 1
     )
     private Integer id;
 

@@ -36,7 +36,8 @@ public class User {
     @SequenceGenerator(
         name = "user_generator",
         sequenceName = "users_id_seq",
-        initialValue = 100
+        initialValue = 100,
+        allocationSize = 1
     )
     protected Integer id;
 

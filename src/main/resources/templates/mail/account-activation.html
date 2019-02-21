@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <h3 th:text="|Hello, ${username}!|">Hello!</h3>
+    <p>
+        Please, click on this link to activate your account:
+        <a th:href="${link}" th:text="Activate" target="_blank"></a>
+    </p>
+</body>
+</html>
