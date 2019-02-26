@@ -1,0 +1,24 @@
+<form id="addVisitForm" xmlns:th="http://www.thymeleaf.org">
+    <div class="hidden invalid-feedback"></div>
+    <div class="form-group">
+        <label>Select your pet</label>
+        <select name="petId" id="petId" class="form-control">
+            <option th:each="pet : ${pets}" th:value="${pet.id}" th:text="|${pet.name} - ${pet.type}|"></option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label>Visit date and time (for example, 2018-09-02 17:00)</label>
+        <div class='input-group date' id='visitDateBlock'>
+            <input type="text" name="visitDate" id="visitDate" class="form-control"
+                   placeholder="Choose visit date">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" id="description" placeholder="Describe your problem" 
+                  class="form-control"></textarea>
+    </div>
+</form>

@@ -37,4 +37,6 @@ public interface VetRepository extends JpaRepository<Vet, Integer> {
     @Query("SELECT specialties FROM Specialty specialties ORDER BY specialties.name")
     @Transactional(readOnly = true)
     List<Specialty> getAllSpecialties();
+
+    Vet findById(int id);
 }

@@ -25,9 +25,9 @@
             <td th:text="${vet.workingDays}"/>
             <td th:text="${vet.workingHours}"/>
             <td>
-                <span th:each="specialty : ${vet.specialties}"
-                      th:text="${specialty.name + ' '}"/> <span
-                    th:if="${vet.nrOfSpecialties == 0}">none</span>
+                <th:block th:each="specialty : ${vet.specialties}"
+                          th:text="${specialty.name + ' '}"></th:block> <th:block
+                    th:if="${vet.nrOfSpecialties == 0}">none</th:block>
             </td>
         </tr>
     </tbody>

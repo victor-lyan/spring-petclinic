@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{fragments/layout :: layout (~{::body},'vets')}">
+<body>
+
+<div class="text-right">
+    <button class="btn btn-primary mr-3" sec:authorize="hasAuthority('OWNER')" id="applyForVisitBtn">
+        <i class="fas fa-clock"></i> Apply for visit
+    </button>
+    <div th:replace="~{fragments/back-button :: back ('/vets')}"></div>
+</div>
+<h2>Veterinarian information</h2>
+
+<table class="table table-striped" th:object="${vet}">
+    <tbody>
+        <tr>
+            <td style="width: 30%;">First Name</td>
+            <td th:text="*{firstName}"></td>
+        </tr>
+        <tr>
+            <td style="width: 30%;">Last Name</td>
+            <td th:text="*{lastName}"></td>
+        </tr>
+        <tr>
+            <td style="width: 30%;">
+                Specialties
+            </td>
+            <td>
+                <th:block th:each="specialty : *{specialties}"
+                          th:text="${specialty.name + ' '}"></th:block> 
+                <th:block th:if="*{nrOfSpecialties == 0}">none</th:block>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 30%;">Working Days</td>
+            <td th:text="*{workingDays}"></td>
+        </tr>
+        <tr>
+            <td style="width: 30%;">Working Hours</td>
+            <td th:text="*{workingHours}"></td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="modal fade" id="visitModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="visitModalLabel">Apply for an visit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">Hello world</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveVisitBtn">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

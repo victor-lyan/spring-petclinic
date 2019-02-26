@@ -17,7 +17,7 @@ package org.springframework.samples.petclinic.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,23 +48,31 @@ public class Visit {
 
     @Column(name = "visit_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    private LocalDate date;
+    private LocalDateTime visitDate;
 
     @NotEmpty
     @Column(name = "description")
     private String description;
 
-    @Column(name = "pet_id")
-    private Integer petId;
+    @Column(name = "is_finished")
+    private boolean isFinished;
 
     @ManyToOne
-    @JoinColumn(name = "vet_id")
+    @JoinColumn(name = "pet_id", nullable = false)
+    private Pet pet;
+
+    @ManyToOne
+    @JoinColumn(name = "vet_id", nullable = false)
     private Vet vet;
 
-    /**
-     * Creates a new instance of Visit for the current date
-     */
     public Visit() {
-        this.date = LocalDate.now();
+
+    }
+
+    public Visit(Pet pet, Vet vet, LocalDateTime visitDate, String description) {
+        this.pet = pet;
+        this.vet = vet;
+        this.visitDate = visitDate;
+        this.description = description;
     }
 }

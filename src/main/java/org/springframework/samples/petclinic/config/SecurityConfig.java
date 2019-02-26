@@ -13,7 +13,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${spring.queries.users-query}")
@@ -56,7 +56,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/activate-account/*"
             )
             .permitAll()
-            .antMatchers("/owners/**").hasAnyAuthority("OWNER", "VET").anyRequest()
+            .antMatchers(
+                "/owners/**",
+                "/visits/**"
+            ).hasAnyAuthority("OWNER", "VET").anyRequest()
             .authenticated()
             .and()
             .csrf().disable()

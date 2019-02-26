@@ -38,4 +38,12 @@ public class OwnerService extends UserService {
     public Page<Owner> findAll(Pageable pageable) {
         return ownerRepository.findAll(pageable);
     }
+
+    public Owner findById(Integer id) {
+        return ownerRepository.findById(id);
+    }
+
+    public Owner findByEmail(String email) {
+        return ownerRepository.findByEmail(email);
+    }
 }

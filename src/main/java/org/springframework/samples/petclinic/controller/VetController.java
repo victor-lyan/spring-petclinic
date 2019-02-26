@@ -18,10 +18,12 @@ package org.springframework.samples.petclinic.controller;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.model.Vet;
+import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -61,13 +63,14 @@ class VetController extends PersonController {
         return "vets/vetList";
     }
 
-    /*@GetMapping({ "/vets" })
-    public @ResponseBody Vets showResourcesVetList() {
-        // Here we are returning an object of type 'Vets' rather than a collection of Vet
-        // objects so it is simpler for JSon/Object mapping
-        Vets vets = new Vets();
-        vets.getVetList().addAll(this.vets.findAll());
-        return vets;
-    }*/
-
+    @GetMapping("{vetId}")
+    public String showVetPage(@PathVariable int vetId, Model model) {
+        Vet vet = vetService.findById(vetId);
+        if (vet == null) {
+            model.addAttribute("message", "Veterinarian not found");
+            return "error";
+        }
+        model.addAttribute("vet", vet);
+        return "vets/vet-page";
+    }
 }

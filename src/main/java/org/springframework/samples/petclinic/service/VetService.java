@@ -1,9 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.repo.RoleRepository;
@@ -46,5 +44,9 @@ public class VetService extends UserService {
 
     public Page<Vet> findAll(Pageable pageable) {
         return vetRepository.findAll(pageable);
+    }
+
+    public Vet findById(int vetId) {
+        return vetRepository.findById(vetId);
     }
 }
