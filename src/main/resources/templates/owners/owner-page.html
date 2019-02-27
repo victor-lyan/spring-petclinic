@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
+
+<body>
+
+<div class="text-right">
+    <div th:replace="~{fragments/back-button :: back ('/owners')}"></div>
+</div>
+<h2>Owner Information</h2>
+
+<table class="table table-striped" th:object="${owner}">
+    <tbody>
+        <tr>
+            <th>Name</th>
+            <td><b th:text="*{firstName + ' ' + lastName}"></b></td>
+        </tr>
+        <tr>
+            <th>Address</th>
+            <td th:text="*{address}"></td>
+        </tr>
+        <tr>
+            <th>City</th>
+            <td th:text="*{city}"></td>
+        </tr>
+        <tr>
+            <th>Phone</th>
+            <td th:text="*{phone}"></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h2>Pets and Visits</h2>
+
+<table th:if="${owner.pets.size() > 0}" class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Birth Date</th>
+            <th>Visits</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="pet : ${owner.pets}">
+            <td th:text="${pet.name}"></td>
+            <td th:text="${pet.type.name}"></td>
+            <td th:text="${#temporals.format(pet.birthDate, 'dd MMM yyyy')}"></td>
+            <td>
+                <div th:each="visit, iterStat : ${pet.visits}">
+                    <p class="mb-0">
+                        <b th:text="${'#' + iterStat.count}"></b> 
+                        <i th:text="${visit.description}"></i>
+                    </p>
+                    <p class="mb-0">
+                        <u>Veterinarian:</u> 
+                        <i th:text="${visit.vet.firstName + ' ' + visit.vet.lastName}"></i>
+                    </p>
+                    <p>
+                        <u>Visit Date:</u>
+                        <i th:text="${#temporals.format(visit.visitDate, 'EEE, d MMM yyyy HH:mm')}"></i>
+                    </p>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>

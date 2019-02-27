@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
 import java.util.Map;
@@ -142,17 +141,15 @@ public class OwnerController extends PersonController {
         }
     }
 
-    /**
-     * Custom handler for displaying an owner.
-     *
-     * @param ownerId the ID of the owner to display
-     * @return a ModelMap with the model attributes for the view
-     */
     @GetMapping("{ownerId}")
-    public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
-        ModelAndView mav = new ModelAndView("owners/ownerDetails");
-        mav.addObject(this.owners.findById(ownerId));
-        return mav;
+    public String showOwner(@PathVariable("ownerId") int ownerId, Model model) {
+        Owner owner = ownerService.findById(ownerId);
+        if (owner == null) {
+            model.addAttribute("message", "Owner not found");
+            return "error";
+        }
+        model.addAttribute("owner", owner);
+        return "owners/owner-page";
     }
 
 }
