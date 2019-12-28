@@ -39,4 +39,6 @@ public interface VetRepository extends JpaRepository<Vet, Integer> {
     List<Specialty> getAllSpecialties();
 
     Vet findById(int id);
+
+    Vet findByEmail(String email);
 }

@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -28,6 +29,7 @@ import org.springframework.test.web.servlet.ResultActions;
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(VetController.class)
+@AutoConfigureMockMvc(secure = false)
 public class VetControllerTests {
 
     @Autowired
@@ -55,9 +57,9 @@ public class VetControllerTests {
 
     @Test
     public void testShowVetListHtml() throws Exception {
-        mockMvc.perform(get("/vets.html"))
+        mockMvc.perform(get("/vets"))
             .andExpect(status().isOk())
-            .andExpect(model().attributeExists("vets"))
+            .andExpect(model().attributeExists("vetPage"))
             .andExpect(view().name("vets/vetList"));
     }
 

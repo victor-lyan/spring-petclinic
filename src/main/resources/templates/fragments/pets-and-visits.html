@@ -1,0 +1,69 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="petsAndVisits (owner, editable)">
+    <h2>
+        Pets and Visits
+        <button th:if="${editable}" class="btn btn-success btn-sm float-right mt-2" id="addNewPetBtn">
+            Add new pet
+        </button>
+    </h2>
+
+    <table th:if="${owner.pets.size() > 0}" class="table table-striped" id="profilePetTable">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Birthdate</th>
+            <th>Visits</th>
+            <th th:if="${editable}">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pet : ${owner.pets}" th:data-petid="${pet.id}">
+            <td th:text="${pet.name}"></td>
+            <td th:text="${pet.type.name}"></td>
+            <td th:text="${#temporals.format(pet.birthDate, 'dd MMM yyyy')}"></td>
+            <td>
+                <div th:each="visit, iterStat : ${pet.visits}">
+                    <p class="mb-0">
+                        <b th:text="${'#' + iterStat.count}"></b>
+                        <i th:text="${visit.description}"></i>
+                    </p>
+                    <p class="mb-0">
+                        <u>Veterinarian:</u>
+                        <i th:text="${visit.vet.firstName + ' ' + visit.vet.lastName}"></i>
+                    </p>
+                    <p>
+                        <u>Visit Date:</u>
+                        <i th:text="${#temporals.format(visit.visitDate, 'EEE, d MMM yyyy HH:mm')}"></i>
+                    </p>
+                </div>
+            </td>
+            <td th:if="${editable}">
+                <a href="#" class="editPetBtn" th:data-petid="${pet.id}">Edit Pet</a><br>
+                <a href="#" class="deletePetBtn" th:data-petid="${pet.id}">Remove Pet</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="petModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="petModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveModalBtn">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

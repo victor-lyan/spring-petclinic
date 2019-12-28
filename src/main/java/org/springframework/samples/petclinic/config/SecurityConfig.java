@@ -58,7 +58,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .permitAll()
             .antMatchers(
                 "/owners/**",
-                "/visits/**"
+                "/visits/**",
+                "/profile/**",
+                "/pets/**"
             ).hasAnyAuthority("OWNER", "VET").anyRequest()
             .authenticated()
             .and()
@@ -74,7 +76,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .logoutSuccessUrl("/")
             .and()
             .exceptionHandling().accessDeniedPage("/access-denied");
-
     }
 
     @Override

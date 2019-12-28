@@ -1,0 +1,67 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body}, 'profile')}">
+
+<body>
+
+<div th:replace="~{fragments/alert-dismissable :: alert (${success}, 'success')}"></div>
+
+<div class="row">
+    <div class="col-3">
+        <div th:replace="~{fragments/profile-sidebar :: sidebar (${isOwner}, 'edit-profile')}"></div>
+    </div>
+    <div class="col-9">
+        <div class="card border-dark">
+            <div class="card-header"><h4>Edit Profile</h4></div>
+            <div class="card-body text-dark">
+                <div class="card-text">
+                    <form th:action="@{'/profile/edit-profile-' + ${isOwner ? 'owner' : 'vet'}}" 
+                          method="post" th:object="${user}">
+                        <div class="form-group">
+                            <input th:replace="~{fragments/labelAndInput :: input (
+                                'First Name', 'firstName', 'text', false)}">
+                        </div>
+                        <div class="form-group">
+                            <input th:replace="~{fragments/labelAndInput :: input (
+                                'Last Name', 'lastName', 'text', false)}">
+                        </div>
+                        <th:block th:if="${isOwner}">
+                            <div class="form-group">
+                                <input th:replace="~{fragments/labelAndInput :: input (
+                                    'Address', 'address', 'text', false)}">
+                            </div>
+                            <div class="form-group">
+                                <input th:replace="~{fragments/labelAndInput :: input (
+                                    'City', 'city', 'text', false)}">
+                            </div>
+                            <div class="form-group">
+                                <input th:replace="~{fragments/labelAndInput :: input (
+                                'Phone', 'phone', 'text', false)}">
+                            </div>
+                        </th:block>
+                        <th:block th:if="${isVet}">
+                            <div class="form-group">
+                                <label>Specialties</label>
+                                <select th:field="*{specialties}" class="form-control" multiple="multiple">
+                                    <option th:each="spec : ${allSpecialties}" th:value="${{spec}}"
+                                            th:text="${spec.name}">aaa</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input th:replace="~{fragments/labelAndInput :: input (
+                                    'Working Days', 'workingDays', 'text', false)}">
+                            </div>
+                            <div class="form-group">
+                                <input th:replace="~{fragments/labelAndInput :: input (
+                                    'Working Hours', 'workingHours', 'text', false)}">
+                            </div>
+                        </th:block>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

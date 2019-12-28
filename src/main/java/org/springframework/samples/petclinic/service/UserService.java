@@ -41,7 +41,7 @@ public class UserService {
         );
     }
 
-    private User findUserByEmail(String email) {
+    public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
@@ -71,5 +71,22 @@ public class UserService {
 
         userRepository.save(user);
         return true;
+    }
+
+    public User findUserById(int id) {
+        return userRepository.findById(id);
+    }
+
+    public boolean comparePassword(User user, String oldPassword) {
+        return passwordEncoder.matches(oldPassword, user.getPassword());
+    }
+
+    public void save(User user) {
+        this.userRepository.save(user);
+    }
+
+    public void changePassword(User user, String newPassword) {
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }

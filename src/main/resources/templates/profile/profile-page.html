@@ -1,0 +1,73 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body}, 'profile')}">
+
+<body>
+<div class="row">
+    <div class="col-3">
+        <div th:replace="~{fragments/profile-sidebar :: sidebar (${isOwner}, 'overview')}"></div>
+    </div>
+    <div class="col-9">
+        <div class="card border-dark">
+            <div class="card-header"><h4>My Profile</h4></div>
+            <div class="card-body text-dark">
+                <div class="card-text">
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <td style="width: 30%;">First Name</td>
+                            <td th:text="${user.firstName}"></td>
+                        </tr>
+                        <tr>
+                            <td>Last Name</td>
+                            <td th:text="${user.lastName}"></td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td th:text="${user.email}"></td>
+                        </tr>
+                        <th:block th:if="${isOwner}">
+                            <tr>
+                                <td>Address</td>
+                                <td th:text="${user.address}"></td>
+                            </tr>
+                            <tr>
+                                <td>City</td>
+                                <td th:text="${user.city}"></td>
+                            </tr>
+                            <tr>
+                                <td>Phone</td>
+                                <td th:text="${user.phone}"></td>
+                            </tr>
+                        </th:block>
+                        <th:block th:if="${isVet == true}">
+                            <tr>
+                                <td>Specialties</td>
+                                <td>
+                                    <th:block th:each="specialty : ${user.specialties}"
+                                              th:text="${specialty.name + ' '}"></th:block>
+                                    <th:block th:if="${user.nrOfSpecialties == 0}">none</th:block>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Working Days</td>
+                                <td th:text="${user.workingDays}"></td>
+                            </tr>
+                            <tr>
+                                <td>Working Hours</td>
+                                <td th:text="${user.workingHours}"></td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+
+                    <th:block th:if="${isOwner}">
+                        <div th:replace="~{fragments/pets-and-visits :: petsAndVisits (${user}, true)}"></div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

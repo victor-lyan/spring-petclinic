@@ -15,42 +15,40 @@
  */
 package org.springframework.samples.petclinic.service;
 
-import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-/**
- * <code>Validator</code> for <code>Pet</code> forms.
- * <p>
- * We're not using Bean Validation annotations here because it is easier to define such validation rule in Java.
- * </p>
- *
- * @author Ken Krebs
- * @author Juergen Hoeller
- */
-public class PetValidator implements Validator {
+public class VetProfileValidator implements Validator {
 
     private static final String REQUIRED = "required";
 
     @Override
     public void validate(Object obj, Errors errors) {
-        Pet pet = (Pet) obj;
-        String name = pet.getName();
-        // name validation
-        if (!StringUtils.hasLength(name)) {
-            errors.rejectValue("name", REQUIRED, REQUIRED);
+        Vet vet = (Vet) obj;
+
+        // first name validation
+        if (!StringUtils.hasLength(vet.getFirstName().trim())) {
+            errors.rejectValue("firstName", REQUIRED, REQUIRED);
         }
 
-        // type validation
-        if (pet.getType() == null) {
-            errors.rejectValue("type", REQUIRED, REQUIRED);
+        // last name validation
+        if (!StringUtils.hasLength(vet.getLastName().trim())) {
+            errors.rejectValue("lastName", REQUIRED, REQUIRED);
         }
 
-        // birthdate validation
-        if (pet.getBirthDate() == null) {
-            errors.rejectValue("birthDate", REQUIRED, REQUIRED);
+        // working days validation
+        if (!StringUtils.hasLength(vet.getWorkingDays().trim())) {
+            errors.rejectValue("workingDays", REQUIRED, REQUIRED);
         }
+
+        // working hours validation
+        if (!StringUtils.hasLength(vet.getWorkingHours().trim())) {
+            errors.rejectValue("workingHours", REQUIRED, REQUIRED);
+        }
+
+        // TODO: validate working days and hours with some patterns
     }
 
     /**
@@ -58,7 +56,7 @@ public class PetValidator implements Validator {
      */
     @Override
     public boolean supports(Class<?> clazz) {
-        return Pet.class.isAssignableFrom(clazz);
+        return Vet.class.isAssignableFrom(clazz);
     }
 
 

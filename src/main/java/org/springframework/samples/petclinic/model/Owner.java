@@ -29,6 +29,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
@@ -48,10 +49,10 @@ public class Owner extends User {
 
     @Column(name = "phone")
     @NotEmpty
-    @Digits(fraction = 0, integer = 10)
+    @Pattern(regexp = "^[0-9]+[0-9\\-]*$", message = "Only digits and hyphen is allowed")
     private String phone;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<Pet> pets;
 
     public String getAddress() {

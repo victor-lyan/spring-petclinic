@@ -13,4 +13,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Transactional(readOnly = true)
     User findByActivationCode(String code);
+
+    @Transactional(readOnly = true)
+    User findById(int id);
 }

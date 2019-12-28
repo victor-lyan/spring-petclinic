@@ -32,7 +32,7 @@ import javax.persistence.MappedSuperclass;
 public class NamedEntity implements Serializable {
 
     @Column(name = "name")
-    private String name;
+    protected String name;
 
     public String getName() {
         return this.name;

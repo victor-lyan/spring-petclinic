@@ -46,4 +46,15 @@ public class OwnerService extends UserService {
     public Owner findByEmail(String email) {
         return ownerRepository.findByEmail(email);
     }
+
+    public void updateOwnerProfile(Owner updatedOwner, String email) {
+        Owner currentOwner = findByEmail(email);
+        currentOwner.setFirstName(updatedOwner.getFirstName());
+        currentOwner.setLastName(updatedOwner.getLastName());
+        currentOwner.setAddress(updatedOwner.getAddress());
+        currentOwner.setCity(updatedOwner.getCity());
+        currentOwner.setPhone(updatedOwner.getPhone());
+
+        ownerRepository.save(currentOwner);
+    }
 }

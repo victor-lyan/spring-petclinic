@@ -18,7 +18,6 @@ package org.springframework.samples.petclinic.controller;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.model.Vet;
-import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

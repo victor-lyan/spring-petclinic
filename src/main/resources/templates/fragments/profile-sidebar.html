@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<th:block th:fragment="sidebar (isOwner, current)">
+    <div class="list-group">
+        <a th:class="${'list-group-item list-group-item-action' + (current == 'overview' ? ' active' : '')}"
+           href="/profile">
+            Overview
+        </a>
+        <a th:class="${'list-group-item list-group-item-action' + (current == 'edit-profile' ? ' active' : '')}"
+           href="/profile/edit-profile">
+            Edit Profile
+        </a>
+        <a th:class="${'list-group-item list-group-item-action' + (current == 'change-password' ? ' active' : '')}"
+           href="/profile/change-password">
+            Change Password
+        </a>
+        <a th:if="${!isOwner}" th:class="${'list-group-item list-group-item-action' 
+            + (current == 'manage-visits' ? ' active' : '')}" href="/profile/manage-visits">
+            Manage Visits
+        </a>
+    </div>
+</th:block>
+
+</body>
+</html>

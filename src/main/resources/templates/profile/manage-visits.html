@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout (~{::body}, 'profile')}">
+<body>
+
+    <div th:replace="~{fragments/alert-dismissable :: alert (${error}, 'danger')}"></div>
+    <div th:replace="~{fragments/alert-dismissable :: alert (${success}, 'success')}"></div>
+    
+    <div class="row">
+        <div class="col-3">
+            <div th:replace="~{fragments/profile-sidebar :: sidebar (${isOwner}, 'manage-visits')}"></div>
+        </div>
+        <div class="col-9">
+            <div class="card border-dark">
+                <div class="card-header"><h4>Manage Visits</h4></div>
+                <div class="card-body text-dark">
+                    <div class="card-text">
+                        <table class="table table-striped" id="vetVisitsTable">
+                            <thead>
+                                <tr>
+                                    <th>Owner</th>
+                                    <th>Pet</th>
+                                    <th>Visit Date</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="visit : ${visits}" th:data-visitid="${visit.id}">
+                                    <td th:text="${visit.owner}"></td>
+                                    <td th:text="${visit.pet}"></td>
+                                    <td th:text="${visit.visitDate}"></td>
+                                    <td th:text="${visit.description}"></td>
+                                    <td>
+                                        <th:block th:if="${visit.finished}">
+                                            <i class="fas fa-check-circle"></i> FINISHED
+                                        </th:block>
+                                        <th:block th:if="${!visit.finished}">
+                                            <i class="fas fa-minus-circle"></i> NOT FINISHED
+                                        </th:block>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

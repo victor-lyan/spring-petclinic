@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragments/layout :: layout (~{::body},'owners')}">
 
@@ -31,41 +29,7 @@
     </tbody>
 </table>
 
+<div th:replace="~{fragments/pets-and-visits :: petsAndVisits (${owner}, false)}"></div>
 
-<h2>Pets and Visits</h2>
-
-<table th:if="${owner.pets.size() > 0}" class="table table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Birth Date</th>
-            <th>Visits</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="pet : ${owner.pets}">
-            <td th:text="${pet.name}"></td>
-            <td th:text="${pet.type.name}"></td>
-            <td th:text="${#temporals.format(pet.birthDate, 'dd MMM yyyy')}"></td>
-            <td>
-                <div th:each="visit, iterStat : ${pet.visits}">
-                    <p class="mb-0">
-                        <b th:text="${'#' + iterStat.count}"></b> 
-                        <i th:text="${visit.description}"></i>
-                    </p>
-                    <p class="mb-0">
-                        <u>Veterinarian:</u> 
-                        <i th:text="${visit.vet.firstName + ' ' + visit.vet.lastName}"></i>
-                    </p>
-                    <p>
-                        <u>Visit Date:</u>
-                        <i th:text="${#temporals.format(visit.visitDate, 'EEE, d MMM yyyy HH:mm')}"></i>
-                    </p>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
 </body>
 </html>

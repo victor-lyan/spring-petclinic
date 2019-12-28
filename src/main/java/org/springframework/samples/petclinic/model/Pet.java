@@ -20,6 +20,7 @@ import org.springframework.beans.support.PropertyComparator;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -54,7 +55,7 @@ public class Pet extends NamedEntity {
     @GeneratedValue(generator = "pet_generator")
     @SequenceGenerator(
         name = "pet_generator",
-        sequenceName = "pet_id_seq",
+        sequenceName = "pets_id_seq",
         initialValue = 100,
         allocationSize = 1
     )
@@ -72,8 +73,19 @@ public class Pet extends NamedEntity {
     @JoinColumn(name = "owner_id")
     private Owner owner;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, mappedBy = "pet", fetch = FetchType.EAGER)
     private Set<Visit> visits = new LinkedHashSet<>();
+
+    public Pet() {
+
+    }
+
+    public Pet(String name, LocalDate birthDate, PetType type, Owner owner) {
+        this.name = name;
+        this.birthDate = birthDate;
+        this.type = type;
+        this.owner = owner;
+    }
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
@@ -81,6 +93,10 @@ public class Pet extends NamedEntity {
 
     public LocalDate getBirthDate() {
         return this.birthDate;
+    }
+
+    public String getBirthDateString() {
+        return birthDate.format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
     }
 
     public PetType getType() {

@@ -1,0 +1,24 @@
+<form id="petForm" xmlns:th="http://www.thymeleaf.org" th:object="${pet}">
+    <div class="hidden invalid-feedback"></div>
+    <input type="hidden" th:field="*{id}">
+    <div class="form-group">
+        <label>Pet Name</label>
+        <input type="text" th:field="*{name}" class="form-control" placeholder="Pet Name">
+    </div>
+    <div class="form-group">
+        <label>Birthdate (for example, 2018-09-02)</label>
+        <div class="input-group date">
+            <input type="text" th:field="*{birthDate}" class="form-control"
+                   placeholder="Choose Pet Birthdate">
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Pet Type</label>
+        <select name="typeId" id="typeId" class="form-control">
+            <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
+        </select>
+    </div>
+</form>

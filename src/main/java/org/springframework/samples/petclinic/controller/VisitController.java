@@ -149,7 +149,7 @@ class VisitController {
         if (result.hasErrors()) {
             response.setValid(false);
             response.addMessage(result.getAllErrors().stream()
-                .map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
+                .map(x -> x.getDefaultMessage()).collect(Collectors.joining(", ")));
         }
 
         // parse date
